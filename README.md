@@ -1,12 +1,13 @@
+# React + TypeScript + Vite
+
 # Rick-Morty-Character-Finder
 A React-based single-page application to explore Rick &amp; Morty characters with search, filters, sorting, favorites, and detailed views using the Rick &amp; Morty API.
-# A Python script to create or update the README.md file.
 
 def create_readme_file():
     """Writes the README content to a file named README.md."""
     readme_content = """# Rick & Morty Explorer
 
-This is a web application built with React and Tailwind CSS that allows users to browse, search, and manage a list of characters from the popular TV show, "Rick and Morty."
+This is a web application built with React, TypeScript and Tailwind CSS that allows users to browse, search, and manage a list of characters from the popular TV show, "Rick and Morty."
 
 ## 🚀 Run Instructions
 
@@ -21,7 +22,7 @@ You need to have Node.js and a package manager (either npm or yarn) installed on
 1. **Clone the repository:**
 
    ```
-   git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+   git clone [https://github.com/julanbiswa/Rick-Morty-Character-Finder.git] (https://github.com/your-username/your-repo-name.git)
    cd your-repo-name
    ```
 
