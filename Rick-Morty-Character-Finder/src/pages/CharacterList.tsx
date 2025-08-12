@@ -88,9 +88,9 @@ export default function CharacterList() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-200 text-gray-300 p-8">
+    <div className="min-h-screen bg-gray-200 text-gray-300 p-8 pt-25">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-white text-center mb-10 animate-fadeInUp">
+        <h1 className="text-4xl font-extrabold text-blue-700 text-center mb-10 animate-fadeInUp">
           Rick & Morty Explorer
         </h1>
 
