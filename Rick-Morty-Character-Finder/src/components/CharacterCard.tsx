@@ -27,7 +27,7 @@ interface Props {
 
 export default function CharacterCard({ character, isFavorite, onToggleFavorite }: Props) {
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:-translate-y-2">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-700 dark:text-white dark:shadow-2xl/30">
       <div className="relative">
         <img
           src={character.image}
@@ -50,10 +50,10 @@ export default function CharacterCard({ character, isFavorite, onToggleFavorite 
           </button>
         </div>
       </div>
-      <div className="p-4 flex flex-col justify-between flex-grow">
+      <div className="p-4 flex flex-col justify-between flex-grow ">
         <div className="flex-grow">
-          <h2 className="text-xl font-bold text-gray-900 leading-tight">{character.name}</h2>
-          <p className="mt-1 text-sm text-gray-600">{character.status} - {character.species}</p>
+          <h2 className="text-xl font-bold text-gray-900 leading-tight dark:text-white">{character.name}</h2>
+          <p className="mt-1 text-sm text-gray-600 dark:text-white">{character.status} - {character.species}</p>
         </div>
         <div className="mt-4">
           <Link

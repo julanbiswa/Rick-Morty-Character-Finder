@@ -1,25 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useTheme } from "../context/useTheme";
 
 export default function Header() {
+
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const {Dark, toggleDark}=useTheme()
 
-  // Function to handle the login/logout button click
   const handleAuthClick = () => {
     setIsLoggedIn(!isLoggedIn);
-    // In a real application, you would add a call to your authentication API here.
-    // For login: Show a login modal or navigate to a login page.
-    // For logout: Clear user session/token from local storage and redirect.
     console.log(isLoggedIn ? "User logged out." : "Login button clicked.");
   };
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      // Hide header on scroll down, show on scroll up
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false);
       } else {
@@ -29,10 +26,7 @@ export default function Header() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
   return (
@@ -51,8 +45,52 @@ export default function Header() {
         <nav className="flex items-center gap-6">
           <Link to="/" className="text-gray-300 hover:text-indigo-400 transition-colors duration-200">Home</Link>
           <a href="#footer" className="text-gray-300 hover:text-indigo-400 transition-colors duration-200">About</a>
-          
-          {/* Login/Logout Button */}
+
+          <button
+            onClick={toggleDark}
+            className="p-2 rounded-full text-white hover:text-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            {Dark? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-moon"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-sun"
+              >
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            )}
+          </button>
+
           <button
             onClick={handleAuthClick}
             className="px-4 py-2 bg-indigo-500 text-white rounded-full font-bold shadow-md hover:bg-indigo-600 transition-colors duration-200"

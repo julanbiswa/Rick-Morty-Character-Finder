@@ -7,6 +7,7 @@ import Pagination from "../components/Pagination";
 import { useFavorites } from "../hooks/useFavorites";
 import { useSearchParams } from "react-router-dom";
 import StatusDropdown from "../components/StatusDropdown";
+import { useState } from "react";
 
 // Define a comprehensive interface for a single character to be used across all components
 interface Character {
@@ -34,7 +35,7 @@ interface ApiResponse {
 
 export default function CharacterList() {
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [showFavorites, setShowFavorites] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("q") || "";
@@ -88,7 +89,7 @@ export default function CharacterList() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-200 text-gray-300 p-8 pt-25">
+    <div className="min-h-screen bg-transparent text-gray-300 p-8 pt-25">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-extrabold text-blue-700 text-center mb-10 animate-fadeInUp">
           Rick & Morty Explorer
@@ -110,10 +111,24 @@ export default function CharacterList() {
           />
         </div>
 
+        {/* show and hide button */}
+              {/* Show Favorites Button */}
+      {favorites.length > 0 && (
+        <div className="text-center mb-6">
+          <button
+            onClick={() => setShowFavorites(!showFavorites)}
+            className="px-6 py-2 rounded-full font-bold bg-yellow-300 hover:bg-yellow-400 text-pink-700 shadow transition-all"
+          >
+            {showFavorites ? "Hide Favorites" : `Show Favorites (${favorites.length})`}
+          </button>
+        </div>
+      )}
+        
+
         {/* Favorites section, only displays if favorites exist */}
-        {favorites.length > 0 && (
-          <div className="mb-8 bg-gray-800 border border-gray-700 rounded-2xl shadow-lg p-6 animate-slideDown">
-            <h2 className="text-2xl font-semibold text-white mb-5 border-b border-gray-700 pb-2">Your Favorites</h2>
+        {showFavorites && favorites.length > 0 && (
+          <div className="mb-8 relative z-1 bg-gray-200 dark:bg-gray-800 border border-gray-700 rounded-2xl shadow-lg p-6 animate-slideDown">
+            <h2 className="text-2xl font-semibold dark:text-white mb-5 border-b border-gray-700 pb-2 tracking-tight nowrap">Your Favorites</h2>
             <div className="flex overflow-x-auto gap-5 pb-2">
               {charactersToDisplay
                 .filter((char) => favorites.includes(char.id))

@@ -2,7 +2,7 @@
 
 export default function Footer() {
   return (
-    <footer id="footer" className="bg-gray-950 border-t border-gray-800 mt-12 text-gray-400">
+    <footer id="footer" className="bg-gray-950 border-t border-gray-800 text-gray-400">
       <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
         {/* On small screens (mobile), there will be 1 column. On medium screens and up, it becomes 3 columns. */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">

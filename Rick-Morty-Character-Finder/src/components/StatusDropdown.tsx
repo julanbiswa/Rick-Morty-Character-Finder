@@ -1,71 +1,95 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+
 // Inline SVG for Chevron Right icon
-const MdOutlineChevronRight = ({ className }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+const MdOutlineChevronRight = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 5l7 7-7 7"
+    />
+  </svg>
 );
 
-interface Props {
-  value: string;
-  onSelect: (value: string) => void;
+interface StatusDropdownProps {
+  onSelectStatus: (status: string | null) => void;
+  selectedStatus: string | null;
 }
 
-const options = [
-  { label: 'All Status', value: '' },
-  { label: 'Alive', value: 'alive' },
-  { label: 'Dead', value: 'dead' },
-  { label: 'Unknown', value: 'unknown' },
-];
+const statusOptions = ['Alive', 'Dead', 'unknown'];
 
-export default function StatusDropdown({ value, onSelect }: Props) {
+const StatusDropdown = ({ onSelectStatus, selectedStatus }: StatusDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find(option => option.value === value) || options[0];
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSelect = (status: string | null) => {
+    onSelectStatus(status);
+    setIsOpen(false);
+  };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
-  const handleSelectOption = (optionValue) => {
-    onSelect(optionValue);
-    setIsOpen(false);
-  };
-
   return (
-    // The dropdown will be full width on mobile devices and scale down on larger screens.
-    <div className="relative w-full md:w-auto" ref={dropdownRef}>
-      <button
-        type="button"
-        className="flex justify-between items-center w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-      >
-        <span>{selectedOption.label}</span>
-        <MdOutlineChevronRight className={`h-5 w-5 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} />
-      </button>
+    <div className="relative inline-block text-left z-20" ref={dropdownRef}>
+      <div>
+        <button
+          type="button"
+          className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600"
+          onClick={toggleDropdown}
+        >
+          {selectedStatus || 'Filter by Status'}
+          <MdOutlineChevronRight
+            className={`-mr-1 ml-2 h-5 w-5 transform transition-transform duration-200 ${isOpen ? 'rotate-90' : 'rotate-0'}`}
+          />
+        </button>
+      </div>
 
       {isOpen && (
-        <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden animate-slideDownUp" role="listbox" aria-labelledby="status-label">
-          {options.map((option) => (
-            <li
-              key={option.value}
-              className={`p-3 cursor-pointer hover:bg-indigo-100 ${option.value === value ? 'bg-indigo-50 text-indigo-800 font-semibold' : 'text-gray-900'}`}
-              onClick={() => handleSelectOption(option.value)}
-              role="option"
-              aria-selected={option.value === value}
+        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 dark:bg-gray-800">
+          <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+            {statusOptions.map((status) => (
+              <a
+                key={status}
+                onClick={() => handleSelect(status)}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer dark:text-gray-200 dark:hover:bg-gray-700"
+                role="menuitem"
+              >
+                {status}
+              </a>
+            ))}
+            <a
+              onClick={() => handleSelect(null)}
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer dark:text-gray-200 dark:hover:bg-gray-700"
+              role="menuitem"
             >
-              {option.label}
-            </li>
-          ))}
-        </ul>
+              All
+            </a>
+          </div>
+        </div>
       )}
     </div>
   );
-}
+};
+
+export default StatusDropdown;
