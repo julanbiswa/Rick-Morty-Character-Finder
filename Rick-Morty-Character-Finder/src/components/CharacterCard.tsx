@@ -1,15 +1,33 @@
 import { Link } from "react-router-dom";
 
+// Define a proper interface for the character object
+interface Character {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  image: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  gender: string;
+  type: string;
+}
+
 interface Props {
-  character: any;
+  character: Character; // Now using the explicit Character type
   isFavorite: boolean;
   onToggleFavorite: () => void;
 }
 
 export default function CharacterCard({ character, isFavorite, onToggleFavorite }: Props) {
   return (
-    // The w-full class is added here to ensure the card container takes up the full width of its parent element.
-    <div className="w-full bg-white rounded-xl shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:-translate-y-2">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:-translate-y-2">
       <div className="relative">
         <img
           src={character.image}
@@ -32,35 +50,18 @@ export default function CharacterCard({ character, isFavorite, onToggleFavorite 
           </button>
         </div>
       </div>
-      <div className="p-4 flex-grow flex flex-col items-center justify-between text-center">
-        <div>
-          <h2 className="font-bold text-lg text-gray-900 mb-1">{character.name}</h2>
-          <p className="text-sm text-gray-600">
-            <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
-              character.status === 'Alive' ? 'bg-green-500' :
-              character.status === 'Dead' ? 'bg-red-500' :
-              'bg-gray-500'
-            }`}></span>
-            {character.status} - {character.species}
-          </p>
+      <div className="p-4 flex flex-col justify-between flex-grow">
+        <div className="flex-grow">
+          <h2 className="text-xl font-bold text-gray-900 leading-tight">{character.name}</h2>
+          <p className="mt-1 text-sm text-gray-600">{character.status} - {character.species}</p>
         </div>
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4">
           <Link
             to={`/character/${character.id}`}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-medium hover:bg-indigo-700 transition-colors duration-200 shadow-md"
+            className="block w-full text-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-200"
           >
-            Details
+            View Details
           </Link>
-          <button
-            onClick={onToggleFavorite}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 shadow-md ${
-              isFavorite
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-            }`}
-          >
-            {isFavorite ? "Unfavorite" : "Favorite"}
-          </button>
         </div>
       </div>
     </div>

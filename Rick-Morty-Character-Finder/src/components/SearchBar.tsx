@@ -7,16 +7,26 @@ interface Props {
 
 export default function SearchBar({ onSearch, initialValue = "" }: Props) {
   const [query, setQuery] = useState(initialValue);
-  const debounceRef = useRef(null);
+  
+  // Use useRef to hold the timeout ID, initializing it to null
+  const debounceRef = useRef<number | null>(null);
 
   useEffect(() => {
-    clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
+    // Clear any existing timeout before setting a new one
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+    
+    // Set a new timeout and save its ID to the ref
+    const timeoutId = setTimeout(() => {
       onSearch(query);
     }, 400);
 
-    return () => clearTimeout(debounceRef.current);
-  }, [query, onSearch]);
+    debounceRef.current = timeoutId;
+
+    // The cleanup function now correctly clears the timeout
+    return () => clearTimeout(debounceRef.current as number);
+  }, [query, onSearch]); // The fix: added `onSearch` to the dependency array
 
   return (
     <input
@@ -24,8 +34,9 @@ export default function SearchBar({ onSearch, initialValue = "" }: Props) {
       placeholder="Search characters..."
       value={query}
       onChange={e => setQuery(e.target.value)}
-      // The input will be full width on all screens and have appropriate padding and border
-      className="w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-400 transition-all duration-200 ease-in-out"
+      className="w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-inner 
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent 
+                 placeholder-gray-400 transition-all duration-200 ease-in-out"
     />
   );
 }
