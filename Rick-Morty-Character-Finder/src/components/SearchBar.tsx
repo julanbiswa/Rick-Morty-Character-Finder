@@ -34,7 +34,7 @@ export default function SearchBar({ onSearch, initialValue = "" }: Props) {
       placeholder="Search characters..."
       value={query}
       onChange={e => setQuery(e.target.value)}
-      className="w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-inner 
+      className="w-full px-4 py-4 bg-white text-gray-800 border border-gray-300 rounded-2xl shadow-inner 
                  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent 
                  placeholder-gray-400 transition-all duration-200 ease-in-out"
     />

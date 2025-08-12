@@ -33,7 +33,7 @@ const StatusDropdown = ({ onSelectStatus, selectedStatus }: StatusDropdownProps)
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (status: string | null) => {
+  const handleSelect = (status: string) => {
     onSelectStatus(status);
     setIsOpen(false);
   };
@@ -79,7 +79,7 @@ const StatusDropdown = ({ onSelectStatus, selectedStatus }: StatusDropdownProps)
               </a>
             ))}
             <a
-              onClick={() => handleSelect(null)}
+              onClick={() => handleSelect("")}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer dark:text-gray-200 dark:hover:bg-gray-700"
               role="menuitem"
             >

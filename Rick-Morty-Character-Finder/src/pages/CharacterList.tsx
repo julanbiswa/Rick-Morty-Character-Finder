@@ -6,7 +6,7 @@ import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import { useFavorites } from "../hooks/useFavorites";
 import { useSearchParams } from "react-router-dom";
-import StatusDropdown from "../components/StatusDropdown";
+// import StatusDropdown from "../components/StatusDropdown";
 import { useState } from "react";
 
 // Define a comprehensive interface for a single character to be used across all components
@@ -103,12 +103,10 @@ export default function CharacterList() {
             }}
             initialValue={search}
           />
-          <StatusDropdown
-            value={status}
-            onSelect={(value) => {
-              updateParams({ status: value, page: "1" });
-            }}
-          />
+          {/* <StatusDropdown
+  onSelectStatus={(s) => updateParams({ status: s, page: "1" })}
+  selectedStatus={status}
+/> */}
         </div>
 
         {/* show and hide button */}
